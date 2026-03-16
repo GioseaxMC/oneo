@@ -152,10 +152,20 @@ int _get_line(string* buffer) {
     for(; temp[size]!=0; size++) {};
     temp[--size] = 0;
     // assert(!*buffer && "expected uninitialized buffer");
-    *buffer = malloc(size+1);
+    if (!*buffer) {
+        *buffer = malloc(size+1);
+        arr_push(__library_strings, *buffer);
+    }
     strcpy(*buffer, temp);
-    arr_push(__library_strings, *buffer);
     return size;
+}
+
+int _get_fmt(string fmt, string* ptr) {
+    char _line[2048];
+    string line = (string)_line;
+    memset(line, 0, 2048);
+    _get_line(&line);
+    return sscanf(line, fmt, ptr);
 }
 
 #if defined(__GNUC__)
@@ -172,7 +182,7 @@ int _get_line(string* buffer) {
     _Pragma("GCC diagnostic ignored \"-Wformat\""); \
     _Generic((type)0, \
         char*: _get_line((void*)var_ptr), \
-        default: scanf(__fmt((type)0), (void*)var_ptr) \
+        default: _get_fmt(__fmt((type)0), (void*)var_ptr) \
     ); \
     _Pragma("GCC diagnostic pop"); \
 } while (0)

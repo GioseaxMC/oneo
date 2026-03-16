@@ -3,11 +3,11 @@
 
 int main() {
     prompt("insert name: ");
-    string name;
+    string name=NULL;
     scan(string, &name);
     
     prompt("insert age: ");
-    int age;
+    int age=0;
     scan(int, &age);
 
     print("Person is called ", name, " and is ", age, " years old");
