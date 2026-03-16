@@ -1,15 +1,23 @@
 #include <stdio.h>
+#include <unistd.h>
+
 #include "oneo.c"
 
-int main() {
-    prompt("insert age: ");
-    int age=0;
-    scan(int, &age);
+#ifndef COMPDIR
+#define COMPDIR "."
+#endif
 
-    prompt("insert name: ");
-    string name=NULL;
-    scan(string, &name);
+int main(int argc, string* argv) {
+    char cwd[256];
+    char ret[2048];
+
+    getcwd(cwd, sizeof(cwd));
+
+    string libdir = COMPDIR;
+    chdir(libdir);
+
+    system("git pull");
     
-
-    print("Person is called ", name, " and is ", age, " years old");
+    sprintf(ret, "cp '%s/oneo.c' %s", libdir, cwd);
+    system(ret);
 }
