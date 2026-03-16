@@ -171,8 +171,8 @@ int _get_line(string* buffer) {
     _Pragma("GCC diagnostic push"); \
     _Pragma("GCC diagnostic ignored \"-Wformat\""); \
     _Generic((type)0, \
-        char*: _get_line(var_ptr), \
-        default: scanf(__fmt((type)0), var_ptr) \
+        char*: _get_line((void*)var_ptr), \
+        default: scanf(__fmt((type)0), (void*)var_ptr) \
     ); \
     _Pragma("GCC diagnostic pop"); \
 } while (0)
